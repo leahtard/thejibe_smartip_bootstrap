@@ -1,0 +1,16 @@
+name = TheJibe: SmartIP Bootstrap
+description = Starter configuration for working with SmartIP module
+core = 7.x
+package = TheJIbe
+version = 7.x-1.0
+project = thejibe_smartip_bootstrap
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = list
+dependencies[] = smart_ip
+dependencies[] = views
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:2
+features[field_base][] = field_smartip_location
+features[views_view][] = smartip_example
+mtime = 1418753074

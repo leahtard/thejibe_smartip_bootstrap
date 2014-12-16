@@ -1,0 +1,349 @@
+<?php
+/**
+ * @file
+ * Code for the TheJibe: SmartIP Bootstrap feature.
+ */
+
+include_once 'thejibe_smartip_bootstrap.features.inc';
+
+/**
+ * Sorts country codes into appropriate continent.
+ */
+function thejibe_smartip_bootstrap_location_mapping($country_code) {
+  switch ($country_code) {
+    /* NORTH AMERICA */
+    case 'AI': // Anguilla
+    case 'AG': // Antigua and Barbuda
+    case 'AW': // Aruba
+    case 'BS': // Bahamas
+    case 'BB': // Barbados
+    case 'BZ': // Belize
+    case 'BM': // Bermuda
+    case 'VG': // British Virgin Islands
+    case 'CA': // Canada
+    case 'KY': // Cayman Islands
+    case 'CR': // Costa Rica
+    case 'CU': // Cuba
+    case 'CW': // Curacao
+    case 'DM': // Dominica
+    case 'DO': // Dominican Republic
+    case 'SV': // El Salvador
+    case 'GL': // Greenland
+    case 'GD': // Grenada and Carriacuou
+    case 'GP': // Guadeloupe
+    case 'GT': // Guatemala
+    case 'HN': // Honduras
+    case 'HT': // Haiti
+    case 'JM': // Jamaica
+    case 'MQ': // Martinique
+    case 'MX': // Mexico
+    case 'PM': // Miquelon
+    case 'MS': // Montserrat
+    case 'CW': // Netherlands Antilles
+    case 'KN': // Nevis
+    case 'NI': // Nicaragua
+    case 'PA': // Panama
+    case 'PR': // Puerto Rico
+    case 'SX': // Sint Maarten
+    case 'KN': // St. Kitts
+    case 'LC': // St. Lucia
+    case 'PM': // St. Pierre and Miquelon
+    case 'VC': // St. Vincent
+    case 'TT': // Trinidad and Tobago
+    case 'TC': // Turks and Caicos Islands
+    case 'VI': // US Virgin Islands
+    case 'US': // United States
+      $location = 'NA';
+      break;
+    /* SOUTH AMERICA */
+    case 'BQ': // Bonaire
+    case 'SA': // Saba
+    case 'SE': // Sint Eustatius
+    case 'AR': // Argentina
+    case 'BO': // Bolivia
+    case 'BR': // Brazil
+    case 'CL': // Chile
+    case 'CO': // Colombia
+    case 'EC': // Ecuador
+    case 'FK': // Falkland Islands
+    case 'GF': // French Guiana
+    case 'GY': // Guyana
+    case 'PY': // Paraguay
+    case 'PE': // Peru
+    case 'SR': // Suriname
+    case 'UY': // Uruguay
+    case 'VE': // Venezuela
+      $location = 'SA';
+      break;
+    /* ASIA */
+    case 'AM': // Armenia
+    case 'AZ': // Azerbaijan
+    case 'BD': // Bangladesh
+    case 'BT': // Bhutan
+    case 'BN': // Brunei
+    case 'KH': // Cambodia
+    case 'CN': // China
+    case 'CX': // Christmas Island
+    case 'CC': // Cocos Islands
+    case 'IO': // Diego Garcia
+    case 'GE': // Georgia
+    case 'HK': // Hong Kong
+    case 'IN': // India
+    case 'ID': // Indonesia
+    case 'IL': // Israel
+    case 'JP': // Japan
+    case 'KZ': // Kazakhstan
+    case 'KP': // North Korea
+    case 'KR': // South Korea
+    case 'KG': // Kyrgyzstan
+    case 'LA': // Laos
+    case 'MO': // Macau
+    case 'MY': // Malaysia
+    case 'MV': // Maldives
+    case 'MN': // Mongolia
+    case 'MM': // Myanmar
+    case 'NP': // Nepal
+    case 'PH': // Philippines
+    case 'SA': // Saudi Arabia
+    case 'SG': // Singapore
+    case 'LK': // Sri Lanka
+    case 'SY': // Syria
+    case 'TW': // Taiwan
+    case 'TJ': // Tajikistan
+    case 'TH': // Thailand
+    case 'TR': // Turkey
+    case 'TM': // Turkmenistan
+    case 'UZ': // Uzbekistan
+    case 'VN': // Vietnam
+    case 'AF': // Afghanistan
+    case 'BH': // Bahrain
+    case 'IR': // Iran
+    case 'IQ': // Iraq
+    case 'JO': // Jordan
+    case 'KW': // Kuwait
+    case 'LB': // Lebanon
+    case 'OM': // Oman
+    case 'PK': // Pakistan
+    case 'PS': // Palestine
+    case 'QA': // Qatar
+    case 'AE': // United Arab Emirates
+    case 'YE': // Yemen
+      $location = 'AS';
+      break;
+    /* AUSTRAILIA & OCEANA */
+    case 'AS': // American Samoa
+    case 'AU': // Australia
+    case 'NZ': // Chatham Island, NZ
+    case 'CK': // Cook Islands
+    case 'FJ': // Fiji Islands
+    case 'PF': // French Polynesia
+    case 'GU': // Guam
+    case 'KI': // Kiribati
+    case 'MP': // Mariana Islands
+    case 'MH': // Marshall Islands
+    case 'FM': // Federated States of Micronesia
+    case 'UM': // Midway Islands
+    case 'NR': // Nauru
+    case 'NC': // New Caledonia
+    case 'NZ': // New Zealand
+    case 'NU': // Niue
+    case 'NF': // Norfolk Island
+    case 'PW': // Palau
+    case 'PG': // Papua New Guinea
+    case 'MP': // Saipan
+    case 'SB': // Solomon Islands
+    case 'TK': // Tokelau
+    case 'TO': // Tonga
+    case 'TV': // Tuvalu
+    case 'VU': // Vanuatu
+    case 'UM': // Wake Island
+    case 'WF': // Wallis and Futuna Islands
+    case 'WS': // Samoa
+    case 'TL': // East Timor
+      $location = 'AU';
+      break;
+    /* ANTARCTICA */
+    case 'AQ': // Antarctica
+      $location = 'AQ';
+      break;
+    /* EUROPE */
+    case 'AL': // Albania
+    case 'AD': // Andorra
+    case 'AM': // Armenia
+    case 'AT': // Austria
+    case 'BY': // Belarus
+    case 'BE': // Belgium
+    case 'BA': // Bosnia and Herzegovina
+    case 'BG': // Bulgaria
+    case 'CH': // Switzerland
+    case 'CY': // Cyprus
+    case 'CZ': // Czech Republic
+    case 'DE': // Germany
+    case 'DK': // Denmark
+    case 'EE': // Estonia
+    case 'ES': // Spain
+    case 'FO': // Faeroe Islands
+    case 'FI': // Finland
+    case 'FR': // France
+    case 'GB': // United Kingdom
+    case 'GE': // Georgia
+    case 'GI': // Gibraltar
+    case 'GR': // Greece
+    case 'HU': // Hungary
+    case 'HR': // Croatia
+    case 'IE': // Ireland
+    case 'IS': // Iceland
+    case 'IT': // Italy
+    case 'LT': // Lithuania
+    case 'LU': // Luxembourg
+    case 'LV': // Latvia
+    case 'MC': // Monaco
+    case 'MK': // Macedonia
+    case 'MT': // Malta
+    case 'NO': // Norway
+    case 'NL': // Netherlands
+    case 'PO': // Poland
+    case 'PT': // Portugal
+    case 'RO': // Romania
+    case 'RU': // Russian Federation
+    case 'SE': // Sweden
+    case 'SI': // Slovenia
+    case 'SK': // Slovakia
+    case 'SM': // San Marino
+    case 'TR': // Turkey
+    case 'UA': // Ukraine
+    case 'VA': // Vatican City State
+      $location = 'EU';
+      break;
+    /* AFRICA */
+    case 'DZ': // Algeria
+    case 'AO': // Angola
+    case 'SH': // Ascension
+    case 'BJ': // Benin
+    case 'BW': // Botswana
+    case 'BF': // Burkina Faso
+    case 'BI': // Burundi
+    case 'CM': // Cameroon
+    case 'CV': // Cape Verde Islands
+    case 'CF': // Central African Republic
+    case 'TD': // Chad Republic
+    case 'KM': // Comoros
+    case 'CG': // Congo
+    case 'DJ': // Djibouti
+    case 'EG': // Egypt
+    case 'GQ': // Equatorial Guinea
+    case 'ER': // Eritrea
+    case 'ET': // Ethiopia
+    case 'GA': // Gabon Republic
+    case 'GM': // Gambia
+    case 'GH': // Ghana
+    case 'GW': // Guinea-Bissau
+    case 'GN': // Guinea
+    case 'CI': // Ivory Coast
+    case 'KE': // Kenya
+    case 'LS': // Lesotho
+    case 'LR': // Liberia
+    case 'LY': // Libya
+    case 'MG': // Madagascar
+    case 'MW': // Malawi
+    case 'ML': // Mali Republic
+    case 'MR': // Mauritania
+    case 'MU': // Mauritius
+    case 'YT': // Mayotte Island
+    case 'MA': // Morocco
+    case 'MZ': // Mozambique
+    case 'NA': // Namibia
+    case 'NE': // Niger Republic
+    case 'NG': // Nigeria
+    case 'ST': // Principe
+    case 'RE': // Reunion Island
+    case 'RW': // Rwanda
+    case 'ST': // Sao Tome
+    case 'SN': // Senegal Republic
+    case 'SC': // Seychelles
+    case 'SL': // Sierra Leone
+    case 'SO': // Somalia Republic
+    case 'ZA': // South Africa
+    case 'SH': // St. Helena
+    case 'SD': // Sudan
+    case 'SZ': // Swaziland
+    case 'TZ': // Tanzania
+    case 'TG': // Togo
+    case 'TN': // Tunisia
+    case 'UG': // Uganda
+    case 'CD': // Zaire
+    case 'ZM': // Zambia
+    case 'TZ': // Zanzibar
+    case 'ZW': // Zimbabwe
+    case 'SS': // South Sudan
+    case 'CD': // Dem. Republic of the Congo
+      $location = 'AF';
+      break;
+    default:
+      $location = 'ALL';
+  }
+  return $location;
+}
+
+/**
+ * Custom function that grabs country code with smart_ip.
+ * Then calls thejibe_smartip_bootstrap_location_mapping() to get the appropriate continent.
+ */
+function thejibe_smartip_bootstrap_smartip_location() {
+  $smart_ip_session = smart_ip_session_get('smart_ip');
+  return thejibe_smartip_bootstrap_location_mapping($smart_ip_session['location']['country_code']);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function thejibe_smartip_bootstrap_menu() {
+  $items = array();
+  $items['location/switch/%'] = array(
+    'page callback' => 'thejibe_smartip_bootstrap_location_switch',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements blank page for page callback in hook_menu().
+ */
+function thejibe_smartip_bootstrap_location_switch($location) {
+  // Get the current session
+  $smart_ip_session = smart_ip_session_get('smart_ip');
+
+  switch ($location) {
+    case 'ALL':
+      $smart_ip_session['location']['country_code'] = '';
+      break;
+    case 'NA':
+      $smart_ip_session['location']['country_code'] = 'US';
+      break;
+    case 'SA':
+      $smart_ip_session['location']['country_code'] = 'BR';
+      break;
+    case 'EU':
+      $smart_ip_session['location']['country_code'] = 'GB';
+      break;
+    case 'AS':
+      $smart_ip_session['location']['country_code'] = 'CN';
+      break;
+    case 'AF':
+      $smart_ip_session['location']['country_code'] = 'EG';
+      break;
+    case 'AU':
+      $smart_ip_session['location']['country_code'] = 'AU';
+      break;
+    case 'AQ':
+      $smart_ip_session['location']['country_code'] = 'AQ';
+      break;
+  }
+
+  smart_ip_session_set('smart_ip', $smart_ip_session);
+  drupal_goto();
+  return '';
+}
